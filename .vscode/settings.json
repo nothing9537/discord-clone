@@ -3,6 +3,7 @@
     "lucide",
     "nextjs",
     "hookform",
-    "uploadthing"
+    "uploadthing",
+    "uuidv"
   ]
 }
