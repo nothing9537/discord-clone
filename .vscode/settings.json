@@ -4,6 +4,7 @@
     "nextjs",
     "hookform",
     "uploadthing",
-    "uuidv"
+    "uuidv",
+    "zustand"
   ]
 }

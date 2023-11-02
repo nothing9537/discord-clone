@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FC, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
-import axios from 'axios';z
 import * as z from 'zod';
 
 import {
@@ -26,6 +26,7 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { FileUpload } from '../file-upload';
+import { useModal } from '@/hooks/use-modal-store';
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -36,13 +37,11 @@ const formSchema = z.object({
   })
 })
 
-export const InitialModal = () => {
-  const [isMounted, setIsMounted] = useState(false);
+export const CreateServerModal: FC = () => {
+  const { isOpen, onClose, type } = useModal();
   const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isModalOpen = isOpen && type === 'createServer';
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -58,17 +57,23 @@ export const InitialModal = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
 
-    await axios.post('/api/servers', data);
-    router.refresh();
-    window.location.reload();
+    try {
+      await axios.post('/api/servers', data);
+      router.refresh();
+
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if(!isMounted) {
-    return null;
-  }
+  const handleClose = useCallback(() => {
+    form.reset();
+    onClose();
+  }, [form, onClose]);
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className='bg-white text-black p-0 overflow-hidden'>
         <DialogHeader className='pt-8 px-6'>
           <DialogTitle className='text-2xl text-center font-bold'>
