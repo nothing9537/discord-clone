@@ -1,11 +1,11 @@
 "use client";
 
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { MemberRole } from '@prisma/client';
 import { ChevronDown, LogOut, PlusCircle, SettingsIcon, Trash, UserPlus, Users } from 'lucide-react';
 
 import { ServerWithMemberWithProfiles } from '@/types';
-import { useModal } from '@/hooks/use-modal-store';
+import { ModalData, ModalType, useModal } from '@/hooks/use-modal-store';
 
 import {
   DropdownMenu,
@@ -26,6 +26,10 @@ export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
+  const handleDropdownOpenModal = useCallback((type: ModalType, data: ModalData) => () => {
+    onOpen(type, data);
+  }, [onOpen]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='focus:outline-none' asChild>
@@ -38,20 +42,20 @@ export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
         {isModerator && (
           <DropdownMenuItem
             className='text-indigo-600 dark:text-indigo-400 text-sm px-3 py-2 cursor-pointer'
-            onClick={() => onOpen('invite', { server })}
+            onClick={handleDropdownOpenModal('invite', { server })}
           >
             Invite People
             <UserPlus className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={() => onOpen('editServer', { server })}>
+          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={handleDropdownOpenModal('editServer', { server })}>
             Server Settings
             <SettingsIcon className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer'>
+          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={handleDropdownOpenModal('members', { server })}>
             Manage Members
             <Users className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
