@@ -34,18 +34,18 @@ export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
           <ChevronDown className='h-5 w-5 ml-auto' />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className='w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]'
-        onClick={() => onOpen('invite', { server })}
-      >
+      <DropdownMenuContent className='w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]'>
         {isModerator && (
-          <DropdownMenuItem className='text-indigo-600 dark:text-indigo-400 text-sm px-3 py-2 cursor-pointer'>
+          <DropdownMenuItem
+            className='text-indigo-600 dark:text-indigo-400 text-sm px-3 py-2 cursor-pointer'
+            onClick={() => onOpen('invite', { server })}
+          >
             Invite People
             <UserPlus className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer'>
+          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={() => onOpen('editServer', { server })}>
             Server Settings
             <SettingsIcon className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>

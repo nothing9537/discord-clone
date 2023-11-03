@@ -2,8 +2,8 @@
 
 import { FC, useCallback, useState } from 'react';
 import { Check, Copy, RefreshCw } from 'lucide-react';
-import axios from 'axios';
 import { Server } from '@prisma/client';
+import axios from 'axios';
 
 import { useModal } from '@/hooks/use-modal-store';
 import { useOrigin } from '@/hooks/use-origin';
