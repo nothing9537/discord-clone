@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
@@ -36,7 +36,7 @@ const formSchema = z.object({
   })
 })
 
-export const InitialModal = () => {
+export const InitialModal: FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
