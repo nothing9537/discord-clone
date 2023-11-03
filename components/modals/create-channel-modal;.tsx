@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import qs from 'query-string';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
@@ -46,6 +46,7 @@ const formSchema = z.object({
 export const CreateChannelModal: FC = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
+  const { channelType } = data;
 
   const isModalOpen = isOpen && type === 'createChannel';
 
@@ -54,9 +55,15 @@ export const CreateChannelModal: FC = () => {
     mode: 'all',
     defaultValues: {
       name: '',
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     }
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType);
+    }
+  }, [channelType, form]);
 
   const isLoading = form.formState.isSubmitting;
 

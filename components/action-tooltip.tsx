@@ -14,13 +14,14 @@ interface ActionTooltipProps {
   children: ReactNode;
   side?: 'top' | 'right' | 'bottom' | 'left';
   align?: 'start' | 'center' | 'end';
+  className?: string;
 }
 
-export const ActionTooltip: FC<ActionTooltipProps> = ({ label, children, side, align }) => {
+export const ActionTooltip: FC<ActionTooltipProps> = ({ label, children, side, align, className }) => {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild className={className}>
           {children}
         </TooltipTrigger>
         <TooltipContent side={side} align={align}>
