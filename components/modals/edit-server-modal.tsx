@@ -77,9 +77,8 @@ export const EditServerModal: FC = () => {
   };
 
   const handleClose = useCallback(() => {
-    form.reset();
     onClose();
-  }, [form, onClose]);
+  }, [onClose]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>

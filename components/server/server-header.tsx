@@ -49,19 +49,28 @@ export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={handleDropdownOpenModal('editServer', { server })}>
+          <DropdownMenuItem
+            className='text-sm px-3 py-2 cursor-pointer'
+            onClick={handleDropdownOpenModal('editServer', { server })}
+          >
             Server Settings
             <SettingsIcon className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer' onClick={handleDropdownOpenModal('members', { server })}>
+          <DropdownMenuItem
+            className='text-sm px-3 py-2 cursor-pointer'
+            onClick={handleDropdownOpenModal('members', { server })}
+          >
             Manage Members
             <Users className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
         )}
         {isModerator && (
-          <DropdownMenuItem className='text-sm px-3 py-2 cursor-pointer'>
+          <DropdownMenuItem
+            className='text-sm px-3 py-2 cursor-pointer'
+            onClick={handleDropdownOpenModal('createChannel', { server })}
+          >
             Create Channel
             <PlusCircle className='h-4 w-4 ml-auto' />
           </DropdownMenuItem>
