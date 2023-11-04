@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import { Channel, ChannelType, Member, MemberRole, Server } from '@prisma/client';
+import { Channel, ChannelType, MemberRole } from '@prisma/client';
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
