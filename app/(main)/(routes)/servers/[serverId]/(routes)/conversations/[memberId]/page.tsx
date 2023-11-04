@@ -1,8 +1,65 @@
 import { FC } from 'react'
+import { redirect } from 'next/navigation';
+import { redirectToSignIn } from '@clerk/nextjs';
 
-const MemberIdPage: FC = async () => {
+import { currentProfile } from '@/lib/current-profile';
+import { db } from '@/lib/db';
+import { getOrCreateConversation } from '@/lib/conversation';
+import ChatHeader from '@/components/chat/chat-header';
+
+interface MemberIdPageProps {
+  params: {
+    memberId: string;
+    serverId: string;
+  }
+}
+
+const MemberIdPage: FC<MemberIdPageProps> = async ({ params }) => {
+  const { memberId, serverId } = params;
+
+  const profile = await currentProfile();
+
+  if (!profile) {
+    return redirectToSignIn();
+  }
+
+  const currentMember = await db.member.findFirst({
+    where: {
+      serverId,
+      profileId: profile.id,
+    },
+    include: {
+      profile: true,
+    },
+  });
+
+  if (!currentMember) {
+    return redirect('/')
+  }
+
+  const conversation = await getOrCreateConversation(
+    currentMember.id, // ! Me
+    memberId, // ! Somebody else
+  );
+
+  if (!conversation) {
+    return redirect(`/servers/${params.serverId}`);
+  }
+
+  const { memberOne, memberTwo } = conversation;
+
+  // * I don't know, who starts the conversation, so i've always pick opposite one
+  const otherMember = memberOne.profile.id === profile.id ? memberTwo : memberOne;
+
   return (
-    <div>ConversationsPage</div>
+    <div className='flex flex-col h-full'>
+      <ChatHeader
+        imageUrl={otherMember.profile.imageUrl}
+        name={otherMember.profile.name}
+        serverId={serverId}
+        type='conversation'
+      />
+    </div>
   )
 }
 
