@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import qs from 'query-string';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
@@ -43,7 +43,7 @@ const formSchema = z.object({
   type: z.nativeEnum(ChannelType),
 })
 
-export const CreateChannelModal: FC = () => {
+export const CreateChannelModal: FC = memo(() => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const { channelType } = data;
@@ -159,4 +159,4 @@ export const CreateChannelModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

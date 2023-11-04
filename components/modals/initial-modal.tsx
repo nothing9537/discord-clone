@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
@@ -36,7 +36,7 @@ const formSchema = z.object({
   })
 })
 
-export const InitialModal: FC = () => {
+export const InitialModal: FC = memo(() => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
@@ -130,4 +130,4 @@ export const InitialModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

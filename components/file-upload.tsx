@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { X } from 'lucide-react';
 import Image from 'next/image';
 
@@ -15,7 +15,7 @@ interface FileUploadProps {
   value?: string;
 }
 
-export const FileUpload: FC<FileUploadProps> = ({ endpoint, onChange, value }) => {
+export const FileUpload: FC<FileUploadProps> = memo(({ endpoint, onChange, value }) => {
   const fileType = value?.split('.').pop();
 
   if (value && fileType !== 'pdf') {
@@ -44,4 +44,4 @@ export const FileUpload: FC<FileUploadProps> = ({ endpoint, onChange, value }) =
       }}
     />
   );
-};
+});

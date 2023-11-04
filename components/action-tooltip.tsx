@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, memo } from 'react'
 
 import {
   Tooltip,
@@ -17,7 +17,7 @@ interface ActionTooltipProps {
   className?: string;
 }
 
-export const ActionTooltip: FC<ActionTooltipProps> = ({ label, children, side, align, className }) => {
+export const ActionTooltip: FC<ActionTooltipProps> = memo(({ label, children, side, align, className }) => {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>
@@ -32,4 +32,4 @@ export const ActionTooltip: FC<ActionTooltipProps> = ({ label, children, side, a
       </Tooltip>
     </TooltipProvider>
   );
-};
+});

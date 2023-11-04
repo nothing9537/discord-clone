@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { FC, memo } from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function ModeToggle() {
+export const ModeToggle: FC = memo(() => {
   const { setTheme } = useTheme();
 
   return (
@@ -37,4 +37,4 @@ export function ModeToggle() {
       </DropdownMenuContent>
     </DropdownMenu>
   )
-}
+})

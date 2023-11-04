@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode, useCallback, useEffect, useState } from 'react';
+import { FC, ReactNode, useCallback, useEffect, useState, memo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 
@@ -27,7 +27,7 @@ export interface ServerSearchProps {
   data: ServerSearchDataItem[];
 }
 
-export const ServerSearch: FC<ServerSearchProps> = ({ data }) => {
+export const ServerSearch: FC<ServerSearchProps> = memo(({ data }) => {
   const [open, setOpen] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
@@ -112,4 +112,4 @@ export const ServerSearch: FC<ServerSearchProps> = ({ data }) => {
       </CommandDialog>
     </>
   );
-};
+});

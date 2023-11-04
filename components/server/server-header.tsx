@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from 'react'
+import { FC, useCallback, memo } from 'react'
 import { MemberRole } from '@prisma/client';
 import { ChevronDown, LogOut, PlusCircle, SettingsIcon, Trash, UserPlus, Users } from 'lucide-react';
 
@@ -20,7 +20,7 @@ interface ServerHeaderProps {
   role?: MemberRole;
 }
 
-export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
+export const ServerHeader: FC<ServerHeaderProps> = memo(({ server, role }) => {
   const { onOpen } = useModal();
 
   const isAdmin = role === MemberRole.ADMIN;
@@ -99,4 +99,4 @@ export const ServerHeader: FC<ServerHeaderProps> = ({ server, role }) => {
       </DropdownMenuContent>
     </DropdownMenu>
   )
-}
+})

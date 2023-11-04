@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from 'react';
+import { FC, useCallback, memo } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -14,7 +14,7 @@ interface NavigationItemProps {
   name: string;
 }
 
-export const NavigationItem: FC<NavigationItemProps> = ({ id, imageUrl, name }) => {
+export const NavigationItem: FC<NavigationItemProps> = memo(({ id, imageUrl, name }) => {
   const params = useParams<{ serverId: string }>();
   const router = useRouter();
 
@@ -43,4 +43,4 @@ export const NavigationItem: FC<NavigationItemProps> = ({ id, imageUrl, name }) 
       </button>
     </ActionTooltip>
   );
-};
+});

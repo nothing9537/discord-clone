@@ -2,7 +2,7 @@
 
 import qs from 'query-string';
 import axios from 'axios';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Channel } from '@prisma/client';
 
@@ -18,7 +18,7 @@ import {
 } from '../ui/dialog';
 import { Button } from '../ui/button';
 
-export const DeleteChannelModal: FC = () => {
+export const DeleteChannelModal: FC = memo(() => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
@@ -82,4 +82,4 @@ export const DeleteChannelModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

@@ -1,7 +1,7 @@
 "use client";
 
 import axios from 'axios';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Server } from '@prisma/client';
 
@@ -17,7 +17,7 @@ import {
 } from '../ui/dialog';
 import { Button } from '../ui/button';
 
-export const DeleteServerModal: FC = () => {
+export const DeleteServerModal: FC = memo(() => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
@@ -72,4 +72,4 @@ export const DeleteServerModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

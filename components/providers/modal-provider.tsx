@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, memo } from 'react';
 
 import { CreateServerModal } from '../modals/create-server-modal';
 import { EditServerModal } from '../modals/edit-server-modal';
@@ -12,7 +12,7 @@ import { DeleteServerModal } from '../modals/delete-server-modal';
 import { DeleteChannelModal } from '../modals/delete-channel-modal';
 import { EditChannelModal } from '../modals/edit-channel-modal';
 
-export const ModalProvider: FC = () => {
+export const ModalProvider: FC = memo(() => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ export const ModalProvider: FC = () => {
       <EditChannelModal />
     </>
   );
-};
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState, memo } from 'react';
 import { Check, Copy, RefreshCw } from 'lucide-react';
 import { Server } from '@prisma/client';
 import axios from 'axios';
@@ -18,7 +18,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
-export const InviteModal: FC = () => {
+export const InviteModal: FC = memo(() => {
   const { isOpen, onClose, onOpen, type, data } = useModal();
   const origin = useOrigin();
 
@@ -82,4 +82,4 @@ export const InviteModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

@@ -1,13 +1,13 @@
 "use client";
 
 import { Plus } from 'lucide-react';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, memo } from 'react';
 
 import { useModal } from '@/hooks/use-modal-store';
 
 import { ActionTooltip } from '../action-tooltip';
 
-export const NavigationAction: FC = () => {
+export const NavigationAction: FC = memo(() => {
   const { onOpen } = useModal();
 
   const openHandler = useCallback(() => {
@@ -25,4 +25,4 @@ export const NavigationAction: FC = () => {
       </ActionTooltip>
     </div>
   );
-};
+});

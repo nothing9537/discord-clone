@@ -1,13 +1,13 @@
 "use client";
 
-import { FC, useCallback } from 'react'
+import { FC, useCallback, memo, MouseEvent } from 'react'
 import { Channel, ChannelType, MemberRole, Server } from '@prisma/client';
 import { Edit, Hash, Lock, LucideIcon, Mic, Trash, Video } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 import { ActionTooltip } from '@/components/action-tooltip';
 import { cn } from '@/lib/utils';
-import { useModal } from '@/hooks/use-modal-store';
+import { ModalType, useModal } from '@/hooks/use-modal-store';
 
 interface ServerChannelProps {
   channel: Channel;
@@ -21,7 +21,7 @@ const iconMap: Record<NonNullable<ChannelType>, LucideIcon> = {
   [ChannelType.VIDEO]: Video,
 }
 
-export const ServerChannel: FC<ServerChannelProps> = ({ channel, server, role }) => {
+export const ServerChannel: FC<ServerChannelProps> = memo(({ channel, server, role }) => {
   const { onOpen } = useModal()
   const params = useParams();
   const router = useRouter();
@@ -30,14 +30,24 @@ export const ServerChannel: FC<ServerChannelProps> = ({ channel, server, role })
 
   const currentChannel = params?.channelId === channel.id;
 
-  const onEditChannel = useCallback(() => onOpen('editChannel', { channel, server }), [channel, onOpen, server]);
-  const onDeleteChannel = useCallback(() => onOpen('deleteChannel', { channel, server }), [channel, onOpen, server]);
+  const onAction = useCallback((action: ModalType) => (e: MouseEvent<SVGSVGElement>) => {
+    e.stopPropagation();
+
+    onOpen(action, { server, channel })
+  }, [channel, onOpen, server]);
+
+  const onChannelVisit = useCallback(() => {
+    router.push(`/servers/${params?.serverId}/channels/${channel.id}`)
+  }, [channel.id, params?.serverId, router]);
 
   return (
-    <button className={cn(
-      'group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1',
-      currentChannel && 'bg-zinc-700/20 dark:bg-zinc-700'
-    )}>
+    <button
+      onClick={onChannelVisit}
+      className={cn(
+        'group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1',
+        currentChannel && 'bg-zinc-700/20 dark:bg-zinc-700'
+      )}
+    >
       <Icon className='flex-shrink-0 w-5 h-5 text-zinc-500 dark:text-zinc-400' />
       <p className={cn(
         'line-clamp-1 font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition',
@@ -50,12 +60,12 @@ export const ServerChannel: FC<ServerChannelProps> = ({ channel, server, role })
           <ActionTooltip label='Edit'>
             <Edit
               className='hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition'
-              onClick={onEditChannel}
+              onClick={onAction('editChannel')}
             />
           </ActionTooltip>
           <ActionTooltip label='Delete'>
             <Trash
-              onClick={onDeleteChannel}
+              onClick={onAction('deleteChannel')}
               className='hidden group-hover:block w-4 h-4 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 transition'
             />
           </ActionTooltip>
@@ -66,4 +76,4 @@ export const ServerChannel: FC<ServerChannelProps> = ({ channel, server, role })
       )}
     </button>
   );
-};
+});

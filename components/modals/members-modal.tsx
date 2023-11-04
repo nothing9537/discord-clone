@@ -2,7 +2,7 @@
 
 import qs from 'query-string';
 import axios from 'axios';
-import { FC, ReactNode, useCallback, useState } from 'react';
+import { FC, ReactNode, useCallback, useState, memo } from 'react';
 import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { MemberRole, Server } from '@prisma/client';
@@ -37,7 +37,7 @@ const roleIconMap: Record<NonNullable<MemberRole>, ReactNode> = {
   ADMIN: <ShieldAlert className='h-4 w-4 ml-2 text-rose-500' />
 }
 
-export const MembersModal: FC = () => {
+export const MembersModal: FC = memo(() => {
   const { isOpen, onClose, onOpen, type, data } = useModal();
   const [loadingId, setLoadingId] = useState<string>('');
   const router = useRouter();
@@ -160,4 +160,4 @@ export const MembersModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});

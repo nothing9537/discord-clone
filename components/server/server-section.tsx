@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { ChannelType, MemberRole } from '@prisma/client';
 import { Plus, Settings } from 'lucide-react';
 
@@ -17,7 +17,7 @@ interface ServerSectionProps {
   server?: ServerWithMemberWithProfiles;
 }
 
-export const ServerSection: FC<ServerSectionProps> = ({ label, role, sectionType, channelType, server }) => {
+export const ServerSection: FC<ServerSectionProps> = memo(({ label, role, sectionType, channelType, server }) => {
   const { onOpen } = useModal();
 
   return (
@@ -47,4 +47,4 @@ export const ServerSection: FC<ServerSectionProps> = ({ label, role, sectionType
       )}
     </div >
   )
-}
+})

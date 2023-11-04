@@ -1,7 +1,7 @@
 "use client";
 
 import axios from 'axios';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form';
@@ -37,7 +37,7 @@ const formSchema = z.object({
   })
 })
 
-export const EditServerModal: FC = () => {
+export const EditServerModal: FC = memo(() => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
@@ -141,4 +141,4 @@ export const EditServerModal: FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+});
