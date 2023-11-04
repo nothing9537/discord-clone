@@ -1,9 +1,9 @@
-import React from 'react'
+import { FC } from 'react'
 
-const MemberIDPage = async () => {
+const MemberIdPage: FC = async () => {
   return (
     <div>ConversationsPage</div>
   )
 }
 
-export default MemberIDPage
+export default MemberIdPage

@@ -1,8 +1,11 @@
 "use client";
 
 import { FC, memo } from 'react';
-import { Avatar, AvatarImage } from './ui/avatar';
+
 import { cn } from '@/lib/utils';
+
+import { Avatar, AvatarImage } from './ui/avatar';
+
 
 interface UserAvatar {
   src?: string;
