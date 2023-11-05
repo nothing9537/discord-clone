@@ -1,0 +1,54 @@
+"use client";
+
+import { createContext, useState, useEffect, useContext, FC, ReactNode, useMemo } from 'react';
+import { io as ClientIO, Socket } from 'socket.io-client';
+
+type SocketContextType = {
+  socket: Socket | null,
+  isConnected: boolean;
+};
+
+const SocketContext = createContext<SocketContextType>({ socket: null, isConnected: false });
+
+export const useSocket = () => useContext(SocketContext);
+
+interface SocketProviderProps {
+  children: ReactNode;
+}
+
+export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
+  const [socket, setSocket] = useState<SocketContextType['socket']>(null);
+  const [isConnected, setIsConnected] = useState<SocketContextType['isConnected']>(false);
+
+  useEffect(() => {
+    const socketInstance = ClientIO('http://localhost:3000', {
+      path: '/api/socket/io',
+      addTrailingSlash: false,
+    });
+
+    socketInstance.on('connect', () => {
+      setIsConnected(true);
+    });
+
+    socketInstance.on('disconnect', () => {
+      setIsConnected(false);
+    });
+
+    setSocket(socketInstance);
+
+    return () => {
+      socketInstance.disconnect();
+    }
+  }, []);
+
+  const memoizedValue = useMemo<SocketContextType>(() => ({
+    socket,
+    isConnected,
+  }), [isConnected, socket]);
+
+  return (
+    <SocketContext.Provider value={memoizedValue}>
+      {children}
+    </SocketContext.Provider>
+  )
+}
