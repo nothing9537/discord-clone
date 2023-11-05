@@ -15,7 +15,7 @@ interface NavigationItemProps {
 }
 
 export const NavigationItem: FC<NavigationItemProps> = memo(({ id, imageUrl, name }) => {
-  const params = useParams<{ serverId: string }>();
+  const params = useParams();
   const router = useRouter();
 
   const onClick = useCallback(() => {
