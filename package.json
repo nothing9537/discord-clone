@@ -28,7 +28,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "lucide-react": "^0.291.0",
-    "next": "14.0.1",
+    "next": "^13.4.12",
     "next-themes": "^0.2.1",
     "query-string": "^8.1.0",
     "react": "^18",
@@ -41,6 +41,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^5.7.4",
     "uuid": "^9.0.1",
+    "ws": "^8.14.2",
     "zod": "^3.22.4",
     "zustand": "^4.4.5"
   },
