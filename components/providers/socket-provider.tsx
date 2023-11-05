@@ -21,10 +21,12 @@ export const SocketProvider: FC<SocketProviderProps> = ({ children }) => {
   const [isConnected, setIsConnected] = useState<SocketContextType['isConnected']>(false);
 
   useEffect(() => {
-    const socketInstance = ClientIO('http://localhost:3000', {
+    const socketInstance = ClientIO(process.env.NEXT_PUBLIC_SIZE_URL!, {
       path: '/api/socket/io',
       addTrailingSlash: false,
     });
+
+    socketInstance.connect();
 
     socketInstance.on('connect', () => {
       setIsConnected(true);
