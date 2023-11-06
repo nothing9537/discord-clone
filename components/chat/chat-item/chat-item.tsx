@@ -10,6 +10,7 @@ import { Member, MemberRole } from '@prisma/client';
 import { Edit, Trash } from 'lucide-react';
 import { format } from 'date-fns';
 
+import { useModal } from '@/hooks/use-modal-store';
 import { MessageWithMemberWithProfile } from '@/types';
 
 import { UserAvatar } from '../../user-avatar';
@@ -33,12 +34,12 @@ const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>;
 
 export const ChatItem: FC<ChatItemProps> = (props) => {
+  const { onOpen } = useModal();
   const { message, currentMember, socketQuery, socketUrl } = props;
 
   const { member, fileUrl, deleted, createdAt, id } = message;
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -79,6 +80,10 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
     }
   }, [form, id, socketQuery, socketUrl]);
 
+  const onDeleteMessage = useCallback(() => {
+    onOpen('deleteMessage', { message, apiUrl: `${socketUrl}/${id}`, query: socketQuery })
+  }, [onOpen, message, socketUrl, id, socketQuery]);
+
   return (
     <div className='relative group flex items-center hover:bg-black/5 p-4 transition w-full'>
       <div className='group flex gap-x-2 items-start w-full'>
@@ -115,8 +120,9 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
         <div className='hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm'>
           {canEditMessage && (
             <ActionTooltip label='Edit'>
-              <span onClick={onEdit}>
+              <span>
                 <Edit
+                  onClick={onEdit}
                   className='cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition'
                 />
               </span>
@@ -124,7 +130,10 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
           )}
           <ActionTooltip label='Delete'>
             <span>
-              <Trash className='cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition' />
+              <Trash
+                onClick={onDeleteMessage}
+                className='cursor-pointer ml-auto w-4 h-4 text-rose-500 hover:text-rose-600 dark:hover:text-rose-300 transition'
+              />
             </span>
           </ActionTooltip>
         </div>

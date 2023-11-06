@@ -100,7 +100,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
         },
         data: {
           fileUrl: null,
-          content: 'This message has been deleted',
+          content: 'This message has been deleted.',
           deleted: true,
         },
         include: {
