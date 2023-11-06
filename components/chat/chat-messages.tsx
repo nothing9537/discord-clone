@@ -8,6 +8,7 @@ import { useChatQuery } from '@/hooks/use-chat';
 
 import { ChatWelcome } from './chat-welcome';
 import { ChatItem } from './chat-item/chat-item';
+import { useChatSocket } from '@/hooks/use-chat-socket';
 
 interface ChatMessagesProps {
   name: string;
@@ -24,9 +25,13 @@ interface ChatMessagesProps {
 export const ChatMessages: FC<ChatMessagesProps> = (props) => {
   const { name, member, chatId, apiUrl, socketQuery, socketUrl, paramKey, paramValue, type, } = props;
 
-  const queryKey = `chat:${chatId}`
+  const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
+
+  useChatSocket({ addKey, updateKey, queryKey });
 
   if (status === 'pending') {
     return (

@@ -9,6 +9,7 @@ import { FC, useCallback, useState } from 'react'
 import { Member, MemberRole } from '@prisma/client';
 import { Edit, Trash } from 'lucide-react';
 import { format } from 'date-fns';
+import { useParams, useRouter } from 'next/navigation';
 
 import { useModal } from '@/hooks/use-modal-store';
 import { MessageWithMemberWithProfile } from '@/types';
@@ -36,6 +37,8 @@ export type FormSchema = z.infer<typeof formSchema>;
 export const ChatItem: FC<ChatItemProps> = (props) => {
   const { onOpen } = useModal();
   const { message, currentMember, socketQuery, socketUrl } = props;
+  const params = useParams();
+  const router = useRouter();
 
   const { member, fileUrl, deleted, createdAt, id } = message;
 
@@ -59,8 +62,16 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
   const canEditMessage = !deleted && isOwner && !fileUrl;
 
   const onEdit = useCallback(() => {
-    setIsEditing(true)
+    setIsEditing((prev) => !prev)
   }, []);
+
+  const onMemberClick = useCallback(() => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+  }, [currentMember.id, member.id, params?.serverId, router]);
 
   const onSubmit = useCallback(async (values: FormSchema) => {
     console.log(values);
@@ -71,7 +82,7 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
         query: socketQuery,
       });
 
-      axios.patch(requestUrl, values);
+      await axios.patch(requestUrl, values);
 
       form.reset();
       setIsEditing(false);
@@ -87,13 +98,13 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
   return (
     <div className='relative group flex items-center hover:bg-black/5 p-4 transition w-full'>
       <div className='group flex gap-x-2 items-start w-full'>
-        <div className='cursor-pointer hover:drop-shadow-md transition'>
+        <div className='cursor-pointer hover:drop-shadow-md transition' onClick={onMemberClick}>
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className='flex flex-col w-full'>
           <div className='flex items-center gap-x-2'>
             <div className='flex items-center gap-x-2'>
-              <p className='font-semibold text-sm hover:underline cursor-pointer'>
+              <p className='font-semibold text-sm hover:underline cursor-pointer' onClick={onMemberClick}>
                 {member.profile.name}
               </p>
               <ActionTooltip label={member.role} side='top'>
