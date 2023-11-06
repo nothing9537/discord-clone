@@ -26,7 +26,7 @@ interface ChatItemProps {
   socketQuery: Record<string, string>;
 }
 
-const DATE_FORMAT = 'd MMM yyyy, HH:mm';
+const DATE_FORMAT = 'd MMM yyyy, HH:mm:ss';
 
 const formSchema = z.object({
   content: z.string().min(1),

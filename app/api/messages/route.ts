@@ -4,7 +4,7 @@ import { currentProfile } from '@/lib/current-profile';
 import { MessageWithMemberWithProfile } from '@/types';
 import { db } from '@/lib/db';
 
-const MESSAGES_BATCH = 15;
+const MESSAGES_BATCH = 5;
 
 export interface GetMessagesResponse {
   messages: MessageWithMemberWithProfile[];

@@ -1,35 +1,35 @@
 "use client";
 
-import { FC, ReactNode, memo, useCallback } from 'react'
-import { ShieldAlert, ShieldCheck } from 'lucide-react';
+import { FC, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation';
-import { Member, MemberRole, Profile, Server } from '@prisma/client';
+import { MemberRole, Server } from '@prisma/client';
 
 import { cn } from '@/lib/utils';
+import { MemberWithProfile } from '@/types';
+
 import { UserAvatar } from '../user-avatar';
+import { IconMap, RoleIconMapClassNames } from '../icon-map';
 
 interface ServerMemberProps {
-  member: Member & { profile: Profile };
+  member: MemberWithProfile;
   server: Server;
-}
-
-const roleIconMap: Record<NonNullable<MemberRole>, ReactNode> = {
-  [MemberRole.GUEST]: null,
-  [MemberRole.ADMIN]: <ShieldCheck className='h-4 w-4 ml-2 text-rose-500' />,
-  [MemberRole.MODERATOR]: <ShieldAlert className='h-4 w-4 ml-2 text-indigo-500' />,
 }
 
 const ServerMember: FC<ServerMemberProps> = ({ member, server }) => {
   const params = useParams();
   const router = useRouter();
 
-  const icon = roleIconMap[member.role];
-
   const currentMember = params?.memberId === member.id;
 
   const onMemberClick = useCallback(() => {
     router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
   }, [member.id, params?.serverId, router]);
+
+  const roleIconMapClasses: RoleIconMapClassNames = {
+    [MemberRole.GUEST]: '',
+    [MemberRole.ADMIN]: 'h-4 w-4 ml-auto text-rose-500',
+    [MemberRole.MODERATOR]: 'h-4 w-4 ml-auto text-indigo-500',
+  };
 
   return (
     <button
@@ -49,7 +49,11 @@ const ServerMember: FC<ServerMemberProps> = ({ member, server }) => {
       )}>
         {member.profile.name}
       </p>
-      {icon}
+      <IconMap
+        type='role'
+        role={member.role}
+        className={roleIconMapClasses}
+      />
     </button>
   );
 };

@@ -3,8 +3,8 @@ import { ChannelType, MemberRole } from '@prisma/client';
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react';
 
 type MapIconObj<T extends MemberRole | ChannelType> = Record<NonNullable<T>, ReactNode>;
-type ChannelIconMapClassNames = Partial<Record<NonNullable<ChannelType>, string>>;
-type RoleIconMapClassNames = Partial<Record<NonNullable<MemberRole>, string>>;
+export type ChannelIconMapClassNames = Partial<Record<NonNullable<ChannelType>, string>>;
+export type RoleIconMapClassNames = Partial<Record<NonNullable<MemberRole>, string>>;
 
 const getChannelIconMap = (channelType: ChannelType, classNames?: ChannelIconMapClassNames) => {
   classNames = {
