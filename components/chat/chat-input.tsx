@@ -4,7 +4,8 @@ import * as z from 'zod';
 import axios from 'axios';
 import qs from 'query-string';
 import { FC, useCallback } from 'react'
-import { useForm } from 'react-hook-form';
+import { Plus } from 'lucide-react';
+import { ControllerRenderProps, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useModal } from '@/hooks/use-modal-store';
@@ -16,8 +17,9 @@ import {
   FormItem,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { Plus, SmileIcon } from 'lucide-react';
 import { useSocket } from '../providers/socket-provider';
+import { EmojiPicker } from '../emoji-picker';
+import { useRouter } from 'next/navigation';
 
 interface ChatInputProps {
   apiUrl: string;
@@ -35,6 +37,7 @@ type FormSchema = z.infer<typeof formSchema>;
 export const ChatInput: FC<ChatInputProps> = ({ apiUrl, query, name, type }) => {
   const { onOpen } = useModal();
   const { socket } = useSocket();
+  const router = useRouter();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -56,7 +59,8 @@ export const ChatInput: FC<ChatInputProps> = ({ apiUrl, query, name, type }) => 
 
       await axios.post(requestUrl, values);
 
-      console.log(values);
+      form.reset();
+      router.refresh();
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +69,10 @@ export const ChatInput: FC<ChatInputProps> = ({ apiUrl, query, name, type }) => 
   const onOpenMessageFile = useCallback(() => {
     onOpen('messageFile', { apiUrl, query })
   }, [apiUrl, query, onOpen]);
+
+  const onEmojiSelect = useCallback((field: ControllerRenderProps<FormSchema>) => (emoji: string) => {
+    field.onChange(`${field.value} ${emoji}`);
+  }, []);
 
   return (
     <Form {...form}>
@@ -90,7 +98,9 @@ export const ChatInput: FC<ChatInputProps> = ({ apiUrl, query, name, type }) => 
                     {...field}
                   />
                   <div className='absolute top-7 right-8'>
-                    <SmileIcon />
+                    <EmojiPicker
+                      onChange={onEmojiSelect(field)}
+                    />
                   </div>
                 </div>
               </FormControl>

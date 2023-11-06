@@ -14,3 +14,13 @@ export type NextApiResponseServerIo = NextApiResponse & {
     },
   },
 };
+
+export interface Emoji {
+  emoticons: string[];
+  id: string;
+  keywords: string[];
+  name: string;
+  native: string;
+  shortcodes: string;
+  unified: string;
+}
