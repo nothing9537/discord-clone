@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { redirect } from 'next/navigation';
 import { redirectToSignIn } from '@clerk/nextjs';
 
-import ChatHeader from '@/components/chat/chat-header';
+import { ChatHeader } from '@/components/chat/chat-header';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ChatMessages } from '@/components/chat/chat-messages';
 

@@ -1,13 +1,17 @@
 import { Server as NetServer, Socket } from 'net';
 import { NextApiResponse } from 'next';
 import { Server as SocketIOServer } from 'socket.io';
-import { Member, Message, Profile, Server } from '@prisma/client';
+import { DirectMessage, Member, Message, Profile, Server } from '@prisma/client';
 
 export type ServerWithMemberWithProfiles = Server & {
   members: MemberWithProfile[];
 };
 
 export type MessageWithMemberWithProfile = Message & {
+  member: MemberWithProfile;
+};
+
+export type DirectMessageWithMemberWithProfile = DirectMessage & {
   member: MemberWithProfile;
 };
 

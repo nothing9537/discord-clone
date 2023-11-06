@@ -6,7 +6,7 @@ import { UseFormReturn } from 'react-hook-form';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
-import { MessageWithMemberWithProfile } from '@/types';
+import { DirectMessageWithMemberWithProfile, MessageWithMemberWithProfile } from '@/types';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -21,7 +21,7 @@ import { FormSchema } from './chat-item';
 interface ChatContentProps {
   isEditing: boolean;
   isSubmitting: boolean;
-  message: MessageWithMemberWithProfile;
+  message: MessageWithMemberWithProfile | DirectMessageWithMemberWithProfile;
   form: UseFormReturn<FormSchema>;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
   onSubmit: (values: FormSchema) => Promise<void>;

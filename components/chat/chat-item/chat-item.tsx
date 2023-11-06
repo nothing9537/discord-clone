@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import { useParams, useRouter } from 'next/navigation';
 
 import { useModal } from '@/hooks/use-modal-store';
-import { MessageWithMemberWithProfile } from '@/types';
+import { DirectMessageWithMemberWithProfile, MessageWithMemberWithProfile } from '@/types';
 
 import { UserAvatar } from '../../user-avatar';
 import { ActionTooltip } from '../../action-tooltip';
@@ -20,7 +20,7 @@ import { ChatItemContent } from './chat-item-content';
 import { IconMap } from '../../icon-map';
 
 interface ChatItemProps {
-  message: MessageWithMemberWithProfile;
+  message: MessageWithMemberWithProfile | DirectMessageWithMemberWithProfile;
   currentMember: Member;
   socketUrl: string;
   socketQuery: Record<string, string>;
@@ -41,6 +41,8 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
   const router = useRouter();
 
   const { member, fileUrl, deleted, createdAt, id } = message;
+
+  console.log(member);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -92,8 +94,8 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
   }, [form, id, socketQuery, socketUrl]);
 
   const onDeleteMessage = useCallback(() => {
-    onOpen('deleteMessage', { message, apiUrl: `${socketUrl}/${id}`, query: socketQuery })
-  }, [onOpen, message, socketUrl, id, socketQuery]);
+    onOpen('deleteMessage', { apiUrl: `${socketUrl}/${id}`, query: socketQuery })
+  }, [onOpen, socketUrl, id, socketQuery]);
 
   return (
     <div className='relative group flex items-center hover:bg-black/5 p-4 transition w-full'>

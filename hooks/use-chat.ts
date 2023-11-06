@@ -3,6 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { useSocket } from '@/components/providers/socket-provider';
 import { GetMessagesResponse } from '@/app/api/messages/route';
+import { GetDirectMessagesResponse } from '@/app/api/direct-messages/route';
 
 interface UseChatQueryProps {
   queryKey: string;
@@ -14,7 +15,7 @@ interface UseChatQueryProps {
 export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: UseChatQueryProps) => {
   const { isConnected } = useSocket();
 
-  const fetchMessages = async ({ pageParam = undefined }: { pageParam?: string }): Promise<GetMessagesResponse> => {
+  const fetchMessages = async ({ pageParam = undefined }: { pageParam?: string }): Promise<GetMessagesResponse | GetDirectMessagesResponse> => {
     const requestUrl = qs.stringifyUrl({
       url: apiUrl,
       query: {
@@ -32,7 +33,7 @@ export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: UseChat
     return response.json()
   };
 
-  const infiniteQuery = useInfiniteQuery<GetMessagesResponse, Error>({
+  const infiniteQuery = useInfiniteQuery<GetMessagesResponse | GetDirectMessagesResponse, Error>({
     queryKey: [queryKey],
     queryFn: ({ pageParam }) => fetchMessages({ pageParam: pageParam as (string | undefined) }),
     getNextPageParam: (lastPage) => lastPage?.nextCursor,

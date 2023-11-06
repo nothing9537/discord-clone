@@ -1,42 +1,42 @@
 import { NextResponse } from 'next/server';
 
 import { currentProfile } from '@/lib/current-profile';
-import { MessageWithMemberWithProfile } from '@/types';
 import { db } from '@/lib/db';
+import { DirectMessageWithMemberWithProfile } from '@/types';
 
 const MESSAGES_BATCH = 10;
 
-export interface GetMessagesResponse {
-  messages: MessageWithMemberWithProfile[];
+export interface GetDirectMessagesResponse {
+  messages: DirectMessageWithMemberWithProfile[];
   nextCursor: string | null;
 }
 
-export async function GET(req: Request): Promise<NextResponse<GetMessagesResponse>> {
+export async function GET(req: Request): Promise<NextResponse<GetDirectMessagesResponse>> {
   try {
     const profile = await currentProfile();
     const { searchParams } = new URL(req.url);
     const cursor = searchParams.get('cursor');
-    const channelId = searchParams.get('channelId');
+    const conversationId = searchParams.get('conversationId');
 
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    if (!channelId) {
-      return new NextResponse('Channel ID missing', { status: 400 });
+    if (!conversationId) {
+      return new NextResponse('Conversation ID missing', { status: 400 });
     }
 
-    let messages: MessageWithMemberWithProfile[] = [];
+    let messages: DirectMessageWithMemberWithProfile[] = [];
 
     if (cursor) {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
           id: cursor,
         },
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {
@@ -50,10 +50,10 @@ export async function GET(req: Request): Promise<NextResponse<GetMessagesRespons
         },
       });
     } else {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: MESSAGES_BATCH,
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {

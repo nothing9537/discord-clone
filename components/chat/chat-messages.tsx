@@ -106,7 +106,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
           </Fragment>
         ))}
       </div>
-      <div ref={bottomRef} className='h-2' />
+      <div ref={bottomRef} />
     </div>
   );
 };
