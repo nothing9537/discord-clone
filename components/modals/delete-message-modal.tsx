@@ -3,7 +3,7 @@
 import qs from 'query-string';
 import axios from 'axios';
 import { FC, useCallback, useState, memo } from 'react';
-import { Channel } from '@prisma/client';
+import { Message } from '@prisma/client';
 
 import { useModal } from '@/hooks/use-modal-store';
 
@@ -40,7 +40,7 @@ export const DeleteMessageModal: FC = memo(() => {
 
       console.log(requestUrl);
 
-      await axios.delete<Channel>(requestUrl);
+      await axios.delete<Message>(requestUrl);
 
       onClose();
     } catch (error) {
