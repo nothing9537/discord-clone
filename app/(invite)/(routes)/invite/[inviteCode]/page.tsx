@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'react';;
 import { redirect } from 'next/navigation';
 
 import { useProfile } from '@/hooks/use-profile';

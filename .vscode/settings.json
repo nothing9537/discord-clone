@@ -5,6 +5,8 @@
     "hookform",
     "uploadthing",
     "uuidv",
-    "zustand"
+    "zustand",
+    "tanstack",
+    "shortcodes"
   ]
 }
