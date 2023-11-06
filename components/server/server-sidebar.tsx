@@ -1,7 +1,6 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 import { redirect } from 'next/navigation';
 import { Channel, ChannelType, MemberRole } from '@prisma/client';
-import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -13,6 +12,7 @@ import { ServerHeader } from './server-header';
 import { ServerSearch } from './server-search';
 import { ServerSection } from './server-section';
 import { ServerChannel } from './server-channel';
+import { IconMap } from '../icon-map';
 import ServerMember from './server-member';
 
 interface ServerSidebarProps {
@@ -25,20 +25,6 @@ interface RenderChannelProps {
   channelType: ChannelType;
   server: ServerWithMemberWithProfiles;
 }
-
-type MapIconObj<T extends MemberRole | ChannelType> = Record<NonNullable<T>, ReactNode>;
-
-const iconMap: MapIconObj<ChannelType> = {
-  [ChannelType.TEXT]: <Hash className='mr-2 h-4 w-4' />,
-  [ChannelType.AUDIO]: <Mic className='mr-2 h-4 w-4' />,
-  [ChannelType.VIDEO]: <Video className='mr-2 h-4 w-4' />,
-};
-
-const roleIconMap: MapIconObj<MemberRole> = {
-  [MemberRole.GUEST]: null,
-  [MemberRole.ADMIN]: <ShieldAlert className='mr-2 h-4 w-4 text-rose-500' />,
-  [MemberRole.MODERATOR]: <ShieldCheck className='mr-2 h-4 w-4 text-indigo-500' />,
-};
 
 const RenderChannelsSection: FC<RenderChannelProps> = ({ data, role, label, channelType, server }) => {
   const content = !!data?.length && (
@@ -119,7 +105,7 @@ export const ServerSidebar: FC<ServerSidebarProps> = async ({ serverId }) => {
                 data: textChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
-                  icon: iconMap[channel.type],
+                  icon: <IconMap type='channel' channelType={channel.type} />,
                 }))
               },
               {
@@ -128,7 +114,7 @@ export const ServerSidebar: FC<ServerSidebarProps> = async ({ serverId }) => {
                 data: audioChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
-                  icon: iconMap[channel.type],
+                  icon: <IconMap type='channel' channelType={channel.type} />,
                 }))
               },
               {
@@ -137,7 +123,7 @@ export const ServerSidebar: FC<ServerSidebarProps> = async ({ serverId }) => {
                 data: videoChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
-                  icon: iconMap[channel.type],
+                  icon: <IconMap type='channel' channelType={channel.type} />,
                 }))
               },
               {
@@ -146,7 +132,7 @@ export const ServerSidebar: FC<ServerSidebarProps> = async ({ serverId }) => {
                 data: members?.map((member) => ({
                   id: member.id,
                   name: member.profile.name,
-                  icon: roleIconMap[member.role],
+                  icon: <IconMap type='role' role={member.role} />,
                 }))
               },
             ]}

@@ -4,12 +4,14 @@ import { Server as SocketIOServer } from 'socket.io';
 import { Member, Message, Profile, Server } from '@prisma/client';
 
 export type ServerWithMemberWithProfiles = Server & {
-  members: (Member & { profile: Profile })[];
+  members: MemberWithProfile[];
 };
 
 export type MessageWithMemberWithProfile = Message & {
-  member: Member & { profile: Profile };
+  member: MemberWithProfile;
 };
+
+export type MemberWithProfile = Member & { profile: Profile };
 
 export type NextApiResponseServerIo = NextApiResponse & {
   socket: Socket & {

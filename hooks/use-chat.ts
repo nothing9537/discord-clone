@@ -24,9 +24,11 @@ export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: UseChat
     }, { skipNull: true });
 
     const response = await fetch(requestUrl);
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
+
     return response.json()
   };
 

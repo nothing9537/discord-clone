@@ -7,6 +7,7 @@ import { Loader2, ServerCrash } from 'lucide-react';
 import { useChatQuery } from '@/hooks/use-chat';
 
 import { ChatWelcome } from './chat-welcome';
+import { ChatItem } from './chat-item/chat-item';
 
 interface ChatMessagesProps {
   name: string;
@@ -57,9 +58,13 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         {data?.pages?.map((group, index) => (
           <Fragment key={index}>
             {group.messages.map((message) => (
-              <div key={message.id}>
-                {message.content}
-              </div>
+              <ChatItem
+                key={message.id}
+                currentMember={member}
+                message={message}
+                socketQuery={socketQuery}
+                socketUrl={socketUrl}
+              />
             ))}
           </Fragment>
         ))}
