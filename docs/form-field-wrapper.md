@@ -1,3 +1,8 @@
+## Form Field Wrapper
+
+Source Code of component. React.Context, Context.Consumer is used here to be able to interact with internal props from outside.
+
+```tsx
 "use client";
 
 import React, { ReactElement, createContext, useCallback } from 'react'
@@ -60,3 +65,32 @@ export const FormFieldWrapper = <T extends FieldValues>(props: FormFieldWrapperP
     </FormFieldContext.Consumer>
   );
 };
+
+```
+
+## Usage example
+
+This passes an anonymous function as `{children}`, initially has `FormFieldContextProps` as an arguments, and returns JSX.Element with the necessary logic.
+
+```tsx
+interface Form {
+  name: string;
+}
+
+const form = useForm<Form>({
+  defaultValues: {
+    name: ''
+  },
+});
+
+<FormFieldWrapper form={form} name='name'>
+  {({ field, formState }) => ( // field.onChange, field.onBlur, field.value,
+    <Input
+      className='...'
+      placeholder='Enter name'
+      {...field}
+    />
+  )}
+</FormFieldWrapper>
+
+```
