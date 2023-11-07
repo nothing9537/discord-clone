@@ -1,7 +1,6 @@
 import { FC } from 'react';;
 import { redirect } from 'next/navigation';
 
-import { useProfile } from '@/hooks/use-profile';
 import { db } from '@/lib/db';
 import { currentProfile } from '@/lib/current-profile';
 import { redirectToSignIn } from '@clerk/nextjs';
