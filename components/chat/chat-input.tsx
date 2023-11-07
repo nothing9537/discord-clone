@@ -32,7 +32,6 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }) => {
   const { onOpen } = useModal();
-  const router = useRouter();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -55,7 +54,6 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
       await axios.post(requestUrl, values);
 
       form.reset();
-      router.refresh();
     } catch (error) {
       console.error(error);
     }
