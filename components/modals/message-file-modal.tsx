@@ -18,14 +18,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-} from '../ui/form';
+import { Form } from '../ui/form';
 import { Button } from '../ui/button';
 import { FileUpload } from '../file-upload';
+import { FormFieldWrapper } from '../form-field-wrapper';
 
 const formSchema = z.object({
   fileUrl: z.string().min(1, {
@@ -37,7 +33,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export const MessageFileModal: FC = memo(() => {
   const { isOpen, onClose, type, data } = useModal();
-  const { server, apiUrl, query } = data;
+  const { apiUrl, query } = data;
   const router = useRouter();
 
   const isModalOpen = isOpen && type === 'messageFile';
@@ -90,21 +86,15 @@ export const MessageFileModal: FC = memo(() => {
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             <div className='space-y-8 px-6'>
               <div className='flex items-center justify-center text-center'>
-                <FormField
-                  control={form.control}
-                  name="fileUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FileUpload
-                          endpoint="messageFile"
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
+                <FormFieldWrapper form={form} name='fileUrl'>
+                  {({ field }) => (
+                    <FileUpload
+                      endpoint="messageFile"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
                   )}
-                />
+                </FormFieldWrapper>
               </div>
             </div>
             <DialogFooter className='bg-gray-100 px-6 py-4'>

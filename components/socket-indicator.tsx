@@ -1,11 +1,11 @@
 "use client";
 
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 import { Badge } from './ui/badge';
 import { useSocket } from './providers/socket-provider';
 
-export const SocketIndicator: FC = () => {
+export const SocketIndicator: FC = memo(() => {
   const { isConnected } = useSocket();
 
   if (!isConnected) {
@@ -21,4 +21,4 @@ export const SocketIndicator: FC = () => {
       Live: Real-time connection!
     </Badge>
   );
-};
+});

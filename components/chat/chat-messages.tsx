@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, Fragment, useCallback, useRef } from 'react';
+import { FC, Fragment, useCallback, useRef, memo } from 'react';
 import { Member } from '@prisma/client';
 import { Loader2, ServerCrash } from 'lucide-react';
 
@@ -23,7 +23,7 @@ interface ChatMessagesProps {
   type: 'channel' | 'conversation';
 }
 
-export const ChatMessages: FC<ChatMessagesProps> = (props) => {
+export const ChatMessages: FC<ChatMessagesProps> = memo((props) => {
   const { name, member, chatId, apiUrl, socketQuery, socketUrl, paramKey, paramValue, type, } = props;
 
   const queryKey = `chat:${chatId}`;
@@ -109,4 +109,4 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
       <div ref={bottomRef} />
     </div>
   );
-};
+});

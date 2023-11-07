@@ -5,7 +5,7 @@ import qs from 'query-string';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useState, memo } from 'react'
 import { Member, MemberRole } from '@prisma/client';
 import { Edit, Trash } from 'lucide-react';
 import { format } from 'date-fns';
@@ -34,15 +34,13 @@ const formSchema = z.object({
 
 export type FormSchema = z.infer<typeof formSchema>;
 
-export const ChatItem: FC<ChatItemProps> = (props) => {
+export const ChatItem: FC<ChatItemProps> = memo((props) => {
   const { onOpen } = useModal();
   const { message, currentMember, socketQuery, socketUrl } = props;
   const params = useParams();
   const router = useRouter();
 
   const { member, fileUrl, deleted, createdAt, id } = message;
-
-  console.log(member);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -153,4 +151,4 @@ export const ChatItem: FC<ChatItemProps> = (props) => {
       )}
     </div>
   );
-};
+});

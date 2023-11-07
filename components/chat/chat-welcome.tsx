@@ -1,14 +1,14 @@
 "use client";
 
 import { Hash } from 'lucide-react';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 interface ChatWelcomeProps {
   name: string;
   type: 'channel' | 'conversation';
 }
 
-export const ChatWelcome: FC<ChatWelcomeProps> = ({ name, type }) => {
+export const ChatWelcome: FC<ChatWelcomeProps> = memo(({ name, type }) => {
   return (
     <div className='space-y-2 px-4 mb-4'>
       {type === 'channel' && (
@@ -27,4 +27,4 @@ export const ChatWelcome: FC<ChatWelcomeProps> = ({ name, type }) => {
       </p>
     </div>
   );
-};
+});

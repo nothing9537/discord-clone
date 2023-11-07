@@ -53,9 +53,9 @@ export const ServerSearch: FC<ServerSearchProps> = memo(({ data }) => {
     setOpen(false);
 
     switch (type) {
-      case 'channel':
-        return router.push(`/servers/${params?.serverId}/conversations/${id}`)
       case 'member':
+        return router.push(`/servers/${params?.serverId}/conversations/${id}`)
+      case 'channel':
         return router.push(`/servers/${[params?.serverId]}/channels/${id}`)
       default:
         break;

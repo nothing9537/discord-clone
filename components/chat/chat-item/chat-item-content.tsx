@@ -1,20 +1,16 @@
 "use client";
 
-import { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, memo } from 'react';
 import { FileIcon } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import Image from 'next/image';
 
-import { cn } from '@/lib/utils';
 import { DirectMessageWithMemberWithProfile, MessageWithMemberWithProfile } from '@/types';
+import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-} from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { FormFieldWrapper } from '@/components/form-field-wrapper';
 
 import { FormSchema } from './chat-item';
 
@@ -27,7 +23,7 @@ interface ChatContentProps {
   onSubmit: (values: FormSchema) => Promise<void>;
 }
 
-export const ChatItemContent: FC<ChatContentProps> = (props) => {
+export const ChatItemContent: FC<ChatContentProps> = memo((props) => {
   const { message, isEditing, form, onSubmit, setIsEditing, isSubmitting } = props;
   const { content, fileUrl, deleted, createdAt, updatedAt } = message;
 
@@ -97,24 +93,18 @@ export const ChatItemContent: FC<ChatContentProps> = (props) => {
       {!fileUrl && isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='flex items-center w-full gap-x-2 pt-2'>
-            <FormField
-              control={form.control}
-              name='content'
-              render={({ field }) => (
-                <FormItem className='flex-1'>
-                  <FormControl>
-                    <div className='relative w-full'>
-                      <Input
-                        className='p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200'
-                        placeholder='Edited message'
-                        disabled={isSubmitting}
-                        {...field}
-                      />
-                    </div>
-                  </FormControl>
-                </FormItem>
+            <FormFieldWrapper form={form} name='content'>
+              {({ field }) => (
+                <div className='relative w-full'>
+                  <Input
+                    className='p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200'
+                    placeholder='Edited message'
+                    disabled={isSubmitting}
+                    {...field}
+                  />
+                </div>
               )}
-            />
+            </FormFieldWrapper>
             <Button size="sm" variant='primary' disabled={isSubmitting}>
               Save
             </Button>
@@ -126,4 +116,4 @@ export const ChatItemContent: FC<ChatContentProps> = (props) => {
       )}
     </>
   );
-};
+});

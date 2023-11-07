@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from 'react'
+import { FC, useCallback, memo } from 'react'
 import { useParams, useRouter } from 'next/navigation';
 import { MemberRole, Server } from '@prisma/client';
 

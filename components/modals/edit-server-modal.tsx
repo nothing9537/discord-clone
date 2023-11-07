@@ -15,18 +15,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
+import { Form } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { FileUpload } from '../file-upload';
 import { useModal } from '@/hooks/use-modal-store';
+import { FormFieldWrapper } from '../form-field-wrapper';
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -67,7 +61,7 @@ export const EditServerModal: FC = memo(() => {
 
     try {
       await axios.patch(`/api/servers/${server?.id}`, data);
-      
+
       form.reset();
       router.refresh();
       onClose();
@@ -95,41 +89,26 @@ export const EditServerModal: FC = memo(() => {
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             <div className='space-y-8 px-6'>
               <div className='flex items-center justify-center text-center'>
-                <FormField
-                  control={form.control}
-                  name="imageUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FileUpload
-                          endpoint="serverImage"
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
+                <FormFieldWrapper form={form} name='imageUrl'>
+                  {({ field }) => (
+                    <FileUpload
+                      endpoint="serverImage"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
                   )}
-                />
+                </FormFieldWrapper>
               </div>
-              <FormField
-                name='name'
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70'>
-                      Server name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className='bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <FormFieldWrapper form={form} name='name' label={{ value: 'Server name' }}>
+                {({ field }) => (
+                  <Input
+                    disabled={isLoading}
+                    placeholder='Enter server name'
+                    className='bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0'
+                    {...field}
+                  />
                 )}
-              />
+              </FormFieldWrapper>
             </div>
             <DialogFooter className='bg-gray-100 px-6 py-4'>
               <Button disabled={isLoading} variant="primary">

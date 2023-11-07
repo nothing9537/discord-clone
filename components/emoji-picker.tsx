@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { Smile } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Picker from '@emoji-mart/react';
@@ -18,7 +18,7 @@ interface EmojiPickerProps {
   onChange: (value: string) => void;
 }
 
-export const EmojiPicker: FC<EmojiPickerProps> = ({ onChange }) => {
+export const EmojiPicker: FC<EmojiPickerProps> = memo(({ onChange }) => {
   const { resolvedTheme } = useTheme();
 
   return (
@@ -39,4 +39,4 @@ export const EmojiPicker: FC<EmojiPickerProps> = ({ onChange }) => {
       </PopoverTrigger>
     </Popover>
   );
-};
+});

@@ -10,6 +10,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { NavigationAction } from './navigation-action';
 import { NavigationItem } from './navigation-item';
 import { ModeToggle } from '../mode-toggle';
+import { UserSettings } from '../user-settings';
 
 export const NavigationSidebar: FC = async () => {
   const profile = await currentProfile();
@@ -40,6 +41,7 @@ export const NavigationSidebar: FC = async () => {
         ))}
       </ScrollArea>
       <div className='pb-3 mt-auto flex items-center flex-col gap-y-4'>
+        <UserSettings />
         <ModeToggle />
         <UserButton
           afterSignOutUrl='/'

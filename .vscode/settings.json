@@ -8,6 +8,7 @@
     "zustand",
     "tanstack",
     "shortcodes",
-    "consts"
+    "consts",
+    "livekit"
   ]
 }
