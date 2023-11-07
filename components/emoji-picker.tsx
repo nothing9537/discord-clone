@@ -27,8 +27,8 @@ export const EmojiPicker: FC<EmojiPickerProps> = memo(({ onChange }) => {
         <Smile className='text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition' />
         <PopoverContent
           side='right'
-          sideOffset={40}
-          className='bg-transparent border-none shadow-none drop-shadow-none mb-16'
+          sideOffset={60}
+          className='bg-transparent border-none shadow-none drop-shadow-none mb-20'
         >
           <Picker
             theme={resolvedTheme}

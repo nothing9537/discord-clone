@@ -4,7 +4,7 @@ import * as z from 'zod';
 import axios from 'axios';
 import qs from 'query-string';
 import { FC, useCallback, memo } from 'react'
-import { Plus } from 'lucide-react';
+import { Plus, Send, SendHorizonal } from 'lucide-react';
 import { ControllerRenderProps, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -15,6 +15,7 @@ import { Form, FormControl } from '../ui/form';
 import { Input } from '../ui/input';
 import { EmojiPicker } from '../emoji-picker';
 import { FormFieldWrapper } from '../form-field-wrapper';
+import { Textarea } from '../ui/textarea';
 
 interface ChatInputProps {
   apiUrl: string;
@@ -43,6 +44,8 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: FormSchema) => {
+    console.log(values);
+
     try {
       const requestUrl = qs.stringifyUrl({
         url: apiUrl,
@@ -80,16 +83,17 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
                 >
                   <Plus className='text-white dark:text-[#313338]' />
                 </button>
-                <Input
+                <Textarea
                   disabled={isLoading}
-                  className='px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200'
+                  className='px-14 py-3.5 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 h-12'
                   placeholder={`Message ${type === 'conversation' ? `to ${name}` : '#' + name}`}
                   {...field}
                 />
-                <div className='absolute top-7 right-8'>
-                  <EmojiPicker
-                    onChange={onEmojiSelect(field)}
-                  />
+                <div className='absolute top-7 right-8 flex gap-x-2'>
+                  <EmojiPicker onChange={onEmojiSelect(field)} />
+                  <button type='submit'>
+                    <SendHorizonal className='text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition cursor-pointer' />
+                  </button>
                 </div>
               </div>
             </FormControl>

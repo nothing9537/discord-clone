@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { FormFieldWrapper } from '@/components/form-field-wrapper';
 
 import { FormSchema } from './chat-item';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ChatContentProps {
   isEditing: boolean;
@@ -50,6 +51,8 @@ export const ChatItemContent: FC<ChatContentProps> = memo((props) => {
     }
   }, [setIsEditing]);
 
+  console.log(content)
+
   return (
     <>
       {isImage && (
@@ -82,7 +85,11 @@ export const ChatItemContent: FC<ChatContentProps> = memo((props) => {
             deleted && 'italic text-zinc-500 dark:text-zinc-400 text-xs mt-1'
           )}
         >
-          {content}
+          {content.split('\n').map((paragraph) => (
+            <div key={paragraph}>
+              {paragraph}
+            </div>
+          ))}
           {isUpdated && !deleted && (
             <span className='text=[10px] mx-2 text-zinc-500 dark:text-zinc-400 italic'>
               (edited)
@@ -96,7 +103,8 @@ export const ChatItemContent: FC<ChatContentProps> = memo((props) => {
             <FormFieldWrapper form={form} name='content'>
               {({ field }) => (
                 <div className='relative w-full'>
-                  <Input
+                  <Textarea
+                    aria-multiline
                     className='p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 w-full'
                     placeholder='Edited message'
                     disabled={isSubmitting}
