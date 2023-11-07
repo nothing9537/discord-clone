@@ -134,6 +134,8 @@ The main routes are in the [**api**](/app/) folder. They are represented as orga
 
 Although the application is not large, it contains a large number of forms. In the course of development we developed a wrapper component FormFieldWrapper, based on React.Context, which allows you to conveniently interact with props on the top level. [More about the component](/docs/form-field-wrapper.md)
 
+----
+
 ## Real-time experience
 
 A stack of **`Socket.IO`** and **`react-query`** was used for real-time interaction between users. With **`Socket.IO`** it is possible to track necessary events, and to change data with **`react-query`**. 
@@ -142,13 +144,19 @@ Also, the application supports working without **`Socket.IO`**.
 
 The `pooling` mechanism is implemented, which allows to emulate real-time interaction, if for some reason the connection with Socket.IO application was not established.
 
+----
+
 ## Difficulties during development. 
 
 Initially the application was developed on NextJS 14 version, but due to weak support of Socket.IO in this version, as well as fresh **issues** on GitHub, I had to downgrade to the latest stable version of NextJS 13.4.12, which supports Socket.IO.
 
+----
+
 ## Video and Audio
 
 The app supports voice and video communication in real-time, enabled by LiveKit, a powerful open source tool built on WebRTC.
+
+----
 
 ## ENV Structure
 
@@ -170,3 +178,5 @@ LIVEKIT_API_SECRET= /* API Secret key of LiveKit service */
 NEXT_PUBLIC_LIVEKIT_URL= /* Link to public domain */
 
 ```
+
+----
