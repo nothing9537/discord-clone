@@ -3,16 +3,14 @@
 import * as z from 'zod';
 import axios from 'axios';
 import qs from 'query-string';
-import { FC, useCallback, memo } from 'react'
-import { Plus, Send, SendHorizonal } from 'lucide-react';
+import { FC, useCallback, memo, KeyboardEvent } from 'react'
+import { Plus, SendHorizonal } from 'lucide-react';
 import { ControllerRenderProps, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 
 import { useModal } from '@/hooks/use-modal-store';
 
 import { Form, FormControl } from '../ui/form';
-import { Input } from '../ui/input';
 import { EmojiPicker } from '../emoji-picker';
 import { FormFieldWrapper } from '../form-field-wrapper';
 import { Textarea } from '../ui/textarea';
@@ -42,7 +40,7 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: FormSchema) => {
+  const onSubmit = useCallback(async (values: FormSchema) => {
     console.log(values);
 
     try {
@@ -57,7 +55,7 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [apiUrl, form, query]);
 
   const onOpenMessageFile = useCallback(() => {
     onOpen('messageFile', { apiUrl, query })
@@ -66,6 +64,13 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
   const onEmojiSelect = useCallback((field: ControllerRenderProps<FormSchema>) => (emoji: string) => {
     field.onChange(`${field.value} ${emoji}`);
   }, []);
+
+  const onTextareaKeyDown = useCallback((event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  }, [form, onSubmit]);
 
   return (
     <Form {...form}>
@@ -83,6 +88,7 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
                 </button>
                 <Textarea
                   disabled={isLoading}
+                  onKeyDown={onTextareaKeyDown}
                   className='px-14 py-3.5 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 h-12'
                   placeholder={`Message ${type === 'conversation' ? `to ${name}` : '#' + name}`}
                   {...field}
