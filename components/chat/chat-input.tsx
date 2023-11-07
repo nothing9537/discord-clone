@@ -89,7 +89,7 @@ export const ChatInput: FC<ChatInputProps> = memo(({ apiUrl, query, name, type }
                 <Textarea
                   disabled={isLoading}
                   onKeyDown={onTextareaKeyDown}
-                  className='px-14 py-3.5 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 h-12'
+                  className='px-14 py-3.5 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 h-12 pr-20'
                   placeholder={`Message ${type === 'conversation' ? `to ${name}` : '#' + name}`}
                   {...field}
                 />
