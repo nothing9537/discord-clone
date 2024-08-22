@@ -32,7 +32,7 @@ Also the application is fully adapted for mobile devices, this helped to achieve
 
 This is the basic functionality, let's look at each section in more detail
 
-BASIC INVITATION LINK TO SERVER: https://discord-clone-production-7510.up.railway.app/invite/66870a74-0418-4c1d-8a07-f2d937a415fb
+BASIC INVITATION LINK TO A TEST SERVER: https://discord-clone-production-7510.up.railway.app/invite/9080bd8e-f5e2-44cc-ab66-3399ef92f10d
 
 ----
 
