@@ -182,3 +182,7 @@ NEXT_PUBLIC_LIVEKIT_URL= /* Link to public domain */
 ```
 
 ----
+
+## Disclaimer
+
+This project is developed for educational purposes and is **not affiliated with, endorsed by, or associated with Discord Inc.**
